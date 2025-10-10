@@ -1,13 +1,13 @@
-packag com.exampl.dmo;
+package com.example.demo;
 
-import org.springframwork.boot.SpringApplication;
-import org.springframwork.boot.autoconfigur.SpringBootApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringApplication;
 
 @SpringBootApplication
-public class DmoApplication {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DmoApplication.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 }
