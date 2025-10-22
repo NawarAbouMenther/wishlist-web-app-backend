@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 @Entity
 public class WishEntry {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String title;
