@@ -7,7 +7,7 @@ COPY . .
 RUN gradle build --no-daemon
 
 # ---- Run stage: JRE 25 ----
-FROM eclipse-temurin:25-jre
+FROM eclipse-temurin:25
 WORKDIR /app
 
 COPY --from=build /app/build/libs/*.jar app.jar
