@@ -1,16 +1,21 @@
-# ---- Build stage: Gradle + JDK 25 ----
-FROM gradle:8.4.0-jdk25 AS build
+# ---- Build stage ----
+FROM eclipse-temurin:25 AS build
 WORKDIR /app
 
+# Gradle Wrapper und Projekt kopieren
 COPY . .
 
-RUN gradle build --no-daemon
+# Berechtigung für Gradle Wrapper (Linux benötigt das)
+RUN chmod +x gradlew
 
-# ---- Run stage: JRE 25 ----
+# JAR bauen
+RUN ./gradlew bootJar --no-daemon
+
+# ---- Run stage ----
 FROM eclipse-temurin:25
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/build/libs/*SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
