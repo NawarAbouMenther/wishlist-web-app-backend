@@ -1,21 +1,22 @@
-# Offizielles Node-Image verwenden
-FROM node:22-alpine
-
-# Arbeitsverzeichnis im Container
+# ---- Build-Stage: Gradle baut das Spring-Boot-JAR ----
+FROM gradle:8.4.0-jdk17 AS build
 WORKDIR /app
 
-# package.json und package-lock.json kopieren
-COPY src/package*.json ./
+# komplettes Projekt kopieren (build.gradle, src/, etc.)
+COPY . .
 
-# Dependencies installieren
-RUN npm install
+# Spring-Boot-JAR bauen
+RUN gradle build --no-daemon
 
-# Restlichen Code kopieren
-COPY src/ .
+# ---- Run-Stage: nur das fertige JAR ausführen ----
+FROM eclipse-temurin:17-jre
+WORKDIR /app
 
-# Port für Render (Render setzt PORT automatisch)
-ENV PORT=8080
+# das erzeugte JAR aus dem Build-Container kopieren
+COPY --from=build /app/build/libs/*.jar app.jar
+
+# Spring Boot läuft standardmäßig auf 8080
 EXPOSE 8080
 
-# Server starten
-CMD ["npm", "start"]
+# Startbefehl
+CMD ["java", "-jar", "app.jar"]
