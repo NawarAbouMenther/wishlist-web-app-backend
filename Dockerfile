@@ -5,13 +5,13 @@ FROM node:22-alpine
 WORKDIR /app
 
 # package.json und package-lock.json kopieren
-COPY package*.json ./
+COPY src/package*.json ./
 
 # Dependencies installieren
 RUN npm install
 
 # Restlichen Code kopieren
-COPY . .
+COPY src/ .
 
 # Port für Render (Render setzt PORT automatisch)
 ENV PORT=8080
