@@ -17,6 +17,7 @@ public class WishEntry {
     private String status;
     private int price;
 
+    public WishEntry() {}
 
     public Long getId() {
         return id;
