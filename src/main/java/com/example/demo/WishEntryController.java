@@ -15,6 +15,11 @@ public class WishEntryController {
     @Autowired
     private WishEntryRepository wishEntryRepository;
 
+    @GetMapping("/")
+    public String index() {
+        return "Backend läuft ✅";
+    }
+
     // Testroute – nützlich für erste Überprüfung
     @GetMapping("/hello")
     public String getHello() {
