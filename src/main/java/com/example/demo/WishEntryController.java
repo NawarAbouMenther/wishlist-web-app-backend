@@ -37,4 +37,10 @@ public class WishEntryController {
     public WishEntry addWish(@RequestBody WishEntry wishEntry) {
         return wishEntryRepository.save(wishEntry);
     }
+
+    @DeleteMapping("/wishes/{id}")
+    public void deleteWish(@PathVariable Long id) {
+        wishEntryRepository.deleteById(id);
+    }
+
 }
