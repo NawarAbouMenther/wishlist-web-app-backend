@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.WishEntry;
-import com.example.demo.WishEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +11,7 @@ import java.util.List;
 public class WishEntryController {
 
     @Autowired
-    private WishEntryRepository wishEntryRepository;
+    private WishService wishService;
 
     @GetMapping("/")
     public String index() {
@@ -29,18 +27,18 @@ public class WishEntryController {
     // Gibt alle Wünsche zurück
     @GetMapping("/wishes")
     public List<WishEntry> getAllWishes() {
-        return (List<WishEntry>) wishEntryRepository.findAll();
+        return (List<WishEntry>) wishService.getAll();
     }
 
     // Speichert einen neuen Wunsch
     @PostMapping("/wishes")
     public WishEntry addWish(@RequestBody WishEntry wishEntry) {
-        return wishEntryRepository.save(wishEntry);
+        return wishService.save(wishEntry);
     }
 
     @DeleteMapping("/wishes/{id}")
     public void deleteWish(@PathVariable Long id) {
-        wishEntryRepository.deleteById(id);
+        wishService.deleteById(id);
     }
 
 }
