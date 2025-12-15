@@ -16,6 +16,7 @@ public class WishEntry {
     private String description;
     private String status;
     private int price;
+    private boolean fulfilled;
 
     public WishEntry() {}
 
@@ -66,5 +67,9 @@ public class WishEntry {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    public boolean isFulfilled() {return fulfilled;}
+
+    public void setFulfilled(boolean fulfilled) {this.fulfilled = fulfilled;}
 }
 

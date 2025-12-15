@@ -30,4 +30,16 @@ public class WishService {
     public Optional<WishEntry> getById(Long id) {
         return wishEntryRepository.findById(id);
     }
+
+    public WishEntry markAsFulfilled(Long id) {
+        Optional<WishEntry> optional = wishEntryRepository.findById(id);
+        if (optional.isPresent()) {
+            WishEntry wish = optional.get();
+            wish.setFulfilled(true);
+            return wishEntryRepository.save(wish);
+        } else {
+            throw new RuntimeException("Wunsch nicht gefunden mit ID: " + id);
+        }
+    }
+
 }

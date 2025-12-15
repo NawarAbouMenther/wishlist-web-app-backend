@@ -41,4 +41,10 @@ public class WishEntryController {
         wishService.deleteById(id);
     }
 
+    @PutMapping("/wishes/{id}/fulfilled")
+    public WishEntry markWishAsFulfilled(@PathVariable Long id) {
+        return wishService.markAsFulfilled(id);
+    }
+
+
 }
