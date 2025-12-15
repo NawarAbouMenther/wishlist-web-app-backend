@@ -31,6 +31,10 @@ public class WishService {
         return wishEntryRepository.findById(id);
     }
 
+    public WishEntry findById(Long id) {
+        return wishEntryRepository.findById(id).orElseThrow(() -> new RuntimeException("Wish not found"));
+    }
+
     public WishEntry markAsFulfilled(Long id) {
         Optional<WishEntry> optional = wishEntryRepository.findById(id);
         if (optional.isPresent()) {

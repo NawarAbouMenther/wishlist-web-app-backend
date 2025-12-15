@@ -41,9 +41,11 @@ public class WishEntryController {
         wishService.deleteById(id);
     }
 
-    @PutMapping("/wishes/{id}/fulfilled")
-    public WishEntry markWishAsFulfilled(@PathVariable Long id) {
-        return wishService.markAsFulfilled(id);
+    @PutMapping("/wishes/{id}")
+    public WishEntry updateWish(@PathVariable Long id, @RequestBody WishEntry updatedWish) {
+        WishEntry wish = wishService.findById(id);
+        wish.setFulfilled(updatedWish.isFulfilled());
+        return wishService.save(wish);
     }
 
 
