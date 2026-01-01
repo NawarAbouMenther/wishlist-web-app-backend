@@ -44,9 +44,14 @@ public class WishEntryController {
     @PutMapping("/wishes/{id}")
     public WishEntry updateWish(@PathVariable Long id, @RequestBody WishEntry updatedWish) {
         WishEntry wish = wishService.findById(id);
+
+        wish.setTitle(updatedWish.getTitle());
+        wish.setName(updatedWish.getName());
+        wish.setDescription(updatedWish.getDescription());
+        wish.setStatus(updatedWish.getStatus());
+        wish.setPrice(updatedWish.getPrice());
         wish.setFulfilled(updatedWish.isFulfilled());
+
         return wishService.save(wish);
     }
-
-
 }
