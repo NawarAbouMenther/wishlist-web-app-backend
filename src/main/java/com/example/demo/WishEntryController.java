@@ -51,6 +51,7 @@ public class WishEntryController {
         wish.setStatus(updatedWish.getStatus());
         wish.setPrice(updatedWish.getPrice());
         wish.setFulfilled(updatedWish.isFulfilled());
+        wish.setPriority(updatedWish.getPriority());
 
         return wishService.save(wish);
     }

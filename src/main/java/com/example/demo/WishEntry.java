@@ -17,6 +17,7 @@ public class WishEntry {
     private String status;
     private int price;
     private boolean fulfilled;
+    private String priority;
 
     public WishEntry() {}
 
@@ -71,5 +72,9 @@ public class WishEntry {
     public boolean isFulfilled() {return fulfilled;}
 
     public void setFulfilled(boolean fulfilled) {this.fulfilled = fulfilled;}
+
+    public String getPriority() {return priority;}
+
+    public void setPriority(String priority) {this.priority = priority;}
 }
 
