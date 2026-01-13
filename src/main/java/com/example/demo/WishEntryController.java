@@ -1,58 +1,64 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class WishEntryController {
 
-    @Autowired
-    private WishService wishService;
+    private final WishCategoryService categoryService;
+    private final WishListService listService;
+    private final WishService entryService;
 
-    @GetMapping("/")
-    public String index() {
-        return "Backend läuft ✅";
+    public WishEntryController(
+            WishCategoryService categoryService,
+            WishListService listService,
+            WishService entryService
+    ) {
+        this.categoryService = categoryService;
+        this.listService = listService;
+        this.entryService = entryService;
     }
 
-    // Testroute – nützlich für erste Überprüfung
-    @GetMapping("/hello")
-    public String getHello() {
-        return "Hello World";
+    // ---------- Kategorien ----------
+    @GetMapping("/categories")
+    public Iterable<WishCategory> getCategories() {
+        return categoryService.getAllCategories();
     }
 
-    // Gibt alle Wünsche zurück
-    @GetMapping("/wishes")
-    public List<WishEntry> getAllWishes() {
-        return (List<WishEntry>) wishService.getAll();
+    // ---------- Listen einer Kategorie ----------
+    @GetMapping("/categories/{catId}/lists")
+    public List<WishList> getLists(@PathVariable Long catId) {
+        return listService.getLists(catId);
     }
 
-    // Speichert einen neuen Wunsch
-    @PostMapping("/wishes")
-    public WishEntry addWish(@RequestBody WishEntry wishEntry) {
-        return wishService.save(wishEntry);
+    @PostMapping("/categories/{catId}/lists")
+    public WishList createList(@PathVariable Long catId, @RequestBody WishList list) {
+        list.setCategoryId(catId);
+        return listService.create(list);
     }
 
-    @DeleteMapping("/wishes/{id}")
-    public void deleteWish(@PathVariable Long id) {
-        wishService.deleteById(id);
+    // ---------- Wünsche einer Liste ----------
+    @GetMapping("/lists/{listId}/wishes")
+    public List<WishEntry> getWishes(@PathVariable Long listId) {
+        return entryService.getAllForList(listId);
     }
 
-    @PutMapping("/wishes/{id}")
-    public WishEntry updateWish(@PathVariable Long id, @RequestBody WishEntry updatedWish) {
-        WishEntry wish = wishService.findById(id);
+    @PostMapping("/lists/{listId}/wishes")
+    public WishEntry createWish(@PathVariable Long listId, @RequestBody WishEntry entry) {
+        entry.setListId(listId);
+        return entryService.save(entry);
+    }
 
-        wish.setTitle(updatedWish.getTitle());
-        wish.setName(updatedWish.getName());
-        wish.setDescription(updatedWish.getDescription());
-        wish.setStatus(updatedWish.getStatus());
-        wish.setPrice(updatedWish.getPrice());
-        wish.setFulfilled(updatedWish.isFulfilled());
-        wish.setPriority(updatedWish.getPriority());
+    @PutMapping("/wishes/{wishId}")
+    public WishEntry updateWish(@PathVariable Long wishId, @RequestBody WishEntry updated) {
+        return entryService.update(wishId, updated);
+    }
 
-        return wishService.save(wish);
+    @DeleteMapping("/wishes/{wishId}")
+    public void deleteWish(@PathVariable Long wishId) {
+        entryService.delete(wishId);
     }
 }
