@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -13,6 +14,7 @@ public class DemoApplication {
 	}
 
 	@Bean
+	@Profile("!test")   // ❗ verhindert Fehler in Tests
 	CommandLineRunner initCategories(WishCategoryRepository repo) {
 		return args -> {
 			if (repo.count() == 0) {
