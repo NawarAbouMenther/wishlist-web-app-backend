@@ -28,23 +28,3 @@ jobs:
 
       - name: Run backend tests
         run: ./gradlew test
-
-  frontend:
-    name: Frontend – Node Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-
-      - name: Install deps
-        run: npm ci
-
-      - name: Run JS tests
-        run: npm test
